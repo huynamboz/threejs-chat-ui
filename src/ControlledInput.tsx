@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 
-export const ControlledInput = (props) => {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export const ControlledInput = (props: any) => {
   const { value, onChange, ...rest } = props
   const [cursor, setCursor] = useState<number | null>(null)
   const ref = useRef<HTMLInputElement>(null)
