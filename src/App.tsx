@@ -38,7 +38,7 @@ export default function App() {
       <pointLight position={[-10, -10, -10]} intensity={0.5} />
       
       <Environment preset="city" />
-      {/* <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} /> */}
+      {/* OrbitControls đã được di chuyển vào ModelParallax */}
       <Parallax refObj={chatRef} />
     </Canvas>
   );
@@ -70,8 +70,19 @@ function ModelParallax({ children }: { children: React.ReactNode }) {
   });
   
   return (
-    <group ref={modelRef}  position={[-1, -6, 6]}>
+    <group ref={modelRef} position={[-1, -6, 6]}>
       {children}
+
+      {/* <OrbitControls 
+        enablePan={false} 
+        enableZoom={true} 
+        enableRotate={true}
+        target={[0, 0, 0]}
+        minDistance={3}
+        maxDistance={15}
+        enableDamping={true}
+        dampingFactor={0.05}
+      /> */}
     </group>
   );
 }

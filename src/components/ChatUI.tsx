@@ -2,7 +2,7 @@
 import { ChatItem } from "./ChatItem";
 import { Html } from "@react-three/drei";
 import { ControlledInput } from "../ControlledInput";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 const messagesData = [
   {
     id: 1,
@@ -29,6 +29,15 @@ export const ChatUI = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] =
     useState<{ id: number; text: string; sender: string }[]>(messagesData);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      }
+    }, 200);
+  }, [messages]);
 
   function handleSend() {
     setMessages([
@@ -40,9 +49,9 @@ export const ChatUI = () => {
   return (
     <Html transform>
       <div className="max-w-[300px] px-3">
-        <div className="max-h-[500px] overflow-y-auto flex-col flex gap-2">
-          {messages.map((msg) => (
-            <ChatItem key={msg.id} message={msg} />
+        <div ref={chatContainerRef} className="max-h-[500px] overflow-y-auto flex-col flex gap-2">
+          {messages.map((msg, index) => (
+            <ChatItem key={msg.id} message={msg} index={index} />
           ))}
         </div>
         <div
