@@ -28,7 +28,7 @@ export function CharacterWithAnimation({ url, position = [0, 0, 0] }: { url: str
   }, [fbx, position]);
 
   // Cập nhật animation theo thời gian
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     mixer.current?.update(delta);
   });
 
