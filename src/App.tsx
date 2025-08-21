@@ -1,41 +1,19 @@
 import * as THREE from "three";
 import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Html, Environment, OrbitControls } from "@react-three/drei";
-import { ControlledInput } from "./ControlledInput";
+import { Environment } from "@react-three/drei";
 import { ChatUI } from "./components/ChatUI";
 import { CharacterWithAnimation } from "./components/CharacterModel";
 
-
-const messages = [
-  {
-    id: 1,
-    text: "Hello, how are you?",
-    sender: "user"
-  },
-  {
-    id: 2,
-    text: "Im ok",
-    sender: "me"
-  },
-  {
-    id: 3,
-    text: "What about you?",
-    sender: "user"
-  },
-  {
-    id: 4,
-    text: "I'm doing well, thank you!",
-    sender: "me"
-  }
-]
 export default function App() {
   const chatRef = useRef<THREE.Group<THREE.Object3DEventMap>>(null);
 
   return (
     <Canvas eventPrefix="client" shadows camera={{ position: [0, 2, 10] }}>
       
-      <CharacterWithAnimation url="/model.fbx" position={[-2, -5, 6]} />
+      <ModelParallax>
+        <CharacterWithAnimation url="/model.fbx" />
+      </ModelParallax>
       
       {/* Ground plane */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.25, 0]} receiveShadow>
@@ -44,20 +22,7 @@ export default function App() {
       </mesh>
       <group ref={chatRef} position={[7, 1, -5]} rotation={[0, THREE.MathUtils.degToRad(-20), 0]}>
         <mesh>
-          <Html transform>
-            <div className="max-w-[300px]">
-              <ChatUI messages={messages}/>
-            <div
-              className="flex items-center gap-2 mt-4"
-              style={{ pointerEvents: "auto" }}
-            >
-              <div className="flex-1 px-3 py-1 text-white border border-gray-100 h-fit rounded-2xl">
-                <ControlledInput/>
-              </div>
-              <button className="px-2 py-1 bg-white rounded-full cursor-pointer">Send</button>
-            </div>
-            </div>
-          </Html>
+          <ChatUI />
         </mesh>
       </group>
 
@@ -79,7 +44,8 @@ export default function App() {
   );
 }
 
-function Parallax({ refObj }) {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+function Parallax({ refObj }: { refObj: any }) {
   useFrame((state) => {
     if (refObj.current) {
       // pointer.x, pointer.y ∈ [-1, 1]
@@ -88,4 +54,24 @@ function Parallax({ refObj }) {
     }
   });
   return null;
+}
+
+function ModelParallax({ children }: { children: React.ReactNode }) {
+  const modelRef = useRef<THREE.Group>(null);
+  
+  useFrame((state) => {
+    if (modelRef.current) {
+      // Tạo hiệu ứng xoay nhẹ cho model theo trục Y (để thấy mặt bên)
+      // pointer.x ∈ [-1, 1]
+      const rotationY = state.pointer.x * 0.3; // Độ xoay nhẹ (radians)
+      
+      modelRef.current.rotation.y = rotationY;
+    }
+  });
+  
+  return (
+    <group ref={modelRef}  position={[-1, -6, 6]}>
+      {children}
+    </group>
+  );
 }

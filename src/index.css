@@ -50,7 +50,7 @@ canvas {
 
 input {
   font-family: 'Inter';
-  width: 100px;
+  /* width: 100px; */
   border: none;
   background-image: none;
   /* background-color: transparent; */
