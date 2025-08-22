@@ -18,7 +18,7 @@ export function Home() {
     }}>
       <Canvas eventPrefix="client" shadows camera={{ position: [0, 2, 10] }}>
         <ModelParallax>
-          <CharacterWithAnimation url="/model.fbx" />
+          <CharacterWithAnimation url="/model3.fbx" />
         </ModelParallax>
         
         {/* Ground plane */}
