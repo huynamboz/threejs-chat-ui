@@ -19,9 +19,11 @@
     "@react-three/uikit-default": "^0.8.21",
     "@react-three/uikit-lucide": "^0.8.21",
     "@tailwindcss/vite": "^4.1.12",
+    "lucide-react": "^0.540.0",
     "maath": "^0.10.8",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-router-dom": "^7.8.1",
     "three": "^0.179.1"
   },
   "devDependencies": {
