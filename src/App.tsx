@@ -6,8 +6,6 @@ function App() {
   return (
     <Router>
       <div className="min-h-lvh">
-
-        {/* Main Content */}
         <main className="w-full mx-auto">
           <Routes>
             <Route path="/" element={<Home />} />

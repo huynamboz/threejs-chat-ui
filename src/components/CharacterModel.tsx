@@ -19,15 +19,15 @@ export function CharacterWithAnimation({ url, position = [0, 0, 0] }: { url: str
       }
     });
 
-    // Nếu có animation trong file
+    // If there are animations in the file
     if (fbx.animations && fbx.animations.length > 0) {
       mixer.current = new THREE.AnimationMixer(fbx);
-      const action = mixer.current.clipAction(fbx.animations[0]); // lấy animation đầu tiên
+      const action = mixer.current.clipAction(fbx.animations[0]); // Get the first animation
       action.play();
     }
   }, [fbx, position]);
 
-  // Cập nhật animation theo thời gian
+  // Update animation over time
   useFrame((_, delta) => {
     mixer.current?.update(delta);
   });

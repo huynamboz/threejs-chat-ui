@@ -42,7 +42,7 @@ export const ChatUI = () => {
   }, [messages]);
 
   async function handleSend() {
-    if (!message.trim()) return; // Không gửi tin nhắn rỗng
+    if (!message.trim()) return; // Don't send empty messages
     
     setMessages([
       ...messages,

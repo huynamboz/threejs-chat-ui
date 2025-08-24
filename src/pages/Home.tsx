@@ -16,16 +16,12 @@ export function Home() {
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
     }}>
+
       <Canvas eventPrefix="client" shadows camera={{ position: [0, 2, 10] }}>
         <ModelParallax>
           <CharacterWithAnimation url="/model3.fbx" />
         </ModelParallax>
-        
-        {/* Ground plane */}
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.25, 0]} receiveShadow>
-          {/* <planeGeometry args={[10, 10]} /> */}
-          {/* <meshStandardMaterial color="#f0f0f0" /> */}
-        </mesh>
+
         <group ref={chatRef} position={[7, 1, -5]} rotation={[0, THREE.MathUtils.degToRad(-20), 0]}>
           <mesh>
             <ChatUI />
@@ -35,7 +31,7 @@ export function Home() {
         {/* Lighting - Optimized for Performance */}
         <ambientLight intensity={0.6} />
         <directionalLight 
-          position={[5, 10, 5]} 
+          position={[5, 10, 5]}
           intensity={1.0} 
           castShadow 
           shadow-mapSize-width={1024}
@@ -51,7 +47,6 @@ export function Home() {
           intensity={0.4} 
           color="#ffffff"
         />
-        {/* <OrbitControls enableZoom={false} /> */}
         <Environment preset="sunset" />
         <Parallax refObj={chatRef} />
       </Canvas>
@@ -76,9 +71,9 @@ function ModelParallax({ children }: { children: React.ReactNode }) {
   
   useFrame((state) => {
     if (modelRef.current) {
-      // Tạo hiệu ứng xoay nhẹ cho model theo trục Y (để thấy mặt bên)
+      // Create gentle rotation effect for model around Y axis (to see the side view)
       // pointer.x ∈ [-1, 1]
-      const rotationY = state.pointer.x * 0.3; // Độ xoay nhẹ (radians)
+      const rotationY = state.pointer.x * 0.3; // Light rotation angle (radians)
       
       modelRef.current.rotation.y = rotationY;
     }
