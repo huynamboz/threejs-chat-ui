@@ -42,7 +42,7 @@ export function Home() {
           shadow-mapSize-height={2048}
         />
         <pointLight position={[-10, -10, -10]} intensity={0.5} />
-        
+        {/* <OrbitControls enableZoom={false} /> */}
         <Environment preset="city" />
         <Parallax refObj={chatRef} />
       </Canvas>
@@ -76,7 +76,7 @@ function ModelParallax({ children }: { children: React.ReactNode }) {
   });
   
   return (
-    <group ref={modelRef} position={[-1, -6, 6]}>
+    <group ref={modelRef} position={[-1, -6, 6]} rotation={[0, THREE.MathUtils.degToRad(-20), 0]}>
       {children}
     </group>
   );

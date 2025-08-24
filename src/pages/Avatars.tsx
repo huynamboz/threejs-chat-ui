@@ -73,7 +73,7 @@ export function Avatars() {
       const formData = new FormData();
       formData.append("image", blob, "capture.jpg");
 
-      const res = await fetch("http://localhost:3000/edit-image", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/edit-image`, {
         method: "POST",
         body: formData,
       });
@@ -101,7 +101,7 @@ export function Avatars() {
   };
 
   return (
-    <div className="p-5 mx-auto bg-gray-900 h-lvh">
+    <div className="p-5 mx-auto bg-gray-900 min-h-lvh">
 
       <div className="grid grid-cols-1 gap-8">
         {/* Camera Section */}
@@ -182,7 +182,9 @@ export function Avatars() {
               /> : <div className="flex items-center justify-center h-64 rounded-lg bg-gray-800/50">
                 <div className="text-center text-gray-400">
                   <Sparkles className="w-12 h-12 mx-auto mb-2" />
-                  <p>AI Avatar will appear here</p>
+                  <p>
+                    You must take a photo first
+                  </p>
                 </div>
               </div>}
               <button
