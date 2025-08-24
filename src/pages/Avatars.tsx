@@ -7,6 +7,7 @@ import {
   Settings,
   User,
 } from "lucide-react";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 export function Avatars() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -16,7 +17,8 @@ export function Avatars() {
   const [isCameraOn, setIsCameraOn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showTokenInput, setShowTokenInput] = useState(false);
-
+  const [isShowImgPreviewProcessing, setIsShowImgPreviewProcessing] =
+    useState(false);
   const startCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -69,19 +71,19 @@ export function Avatars() {
 
     setIsLoading(true);
     try {
+      setTimeout(() => {
+        setIsShowImgPreviewProcessing(true);
+      }, 5000);
       const blob = await (await fetch(preview)).blob();
       const formData = new FormData();
       formData.append("image", blob, "capture.jpg");
-
       const res = await fetch(`${import.meta.env.VITE_API_URL}/edit-image`, {
         method: "POST",
         body: formData,
       });
-
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
-
       const data = await res.json();
       setResult(data.image);
     } catch (error) {
@@ -102,7 +104,6 @@ export function Avatars() {
 
   return (
     <div className="p-5 mx-auto bg-gray-900 min-h-lvh">
-
       <div className="grid grid-cols-1 gap-8">
         {/* Camera Section */}
         <div className="flex gap-5">
@@ -175,18 +176,20 @@ export function Avatars() {
               Captured Photo
             </h3>
             <div className="relative">
-              {preview ? <img
-                src={preview || ""}
-                alt="Preview"
-                className="w-full rounded-lg"
-              /> : <div className="flex items-center justify-center h-64 rounded-lg bg-gray-800/50">
-                <div className="text-center text-gray-400">
-                  <Sparkles className="w-12 h-12 mx-auto mb-2" />
-                  <p>
-                    You must take a photo first
-                  </p>
+              {preview ? (
+                <img
+                  src={preview || ""}
+                  alt="Preview"
+                  className="w-full rounded-lg"
+                />
+              ) : (
+                <div className="flex items-center justify-center h-64 rounded-lg bg-gray-800/50">
+                  <div className="text-center text-gray-400">
+                    <Sparkles className="w-12 h-12 mx-auto mb-2" />
+                    <p>You must take a photo first</p>
+                  </div>
                 </div>
-              </div>}
+              )}
               <button
                 onClick={() => downloadImage(preview || "", "selfie.jpg")}
                 className="absolute p-2 text-white transition-colors rounded-lg top-2 right-2 bg-black/50 hover:bg-black/70"
@@ -215,12 +218,13 @@ export function Avatars() {
         </div>
 
         {/* Result Section */}
-        <div className="space-y-6">
-          <div className="p-6 border bg-white/10 backdrop-blur-md rounded-xl border-white/20">
+        <div className="flex justify-center w-full">
+          <div className="lg:max-w-[50%] w-full p-6 border bg-white/10 backdrop-blur-md rounded-xl border-white/20">
             <h3 className="flex items-center gap-2 mb-4 text-lg font-semibold text-white">
               <Sparkles className="w-5 h-5" />
               Avatar AI
             </h3>
+
             {result ? (
               <div className="relative">
                 <img
@@ -235,13 +239,41 @@ export function Avatars() {
                   <Download className="w-4 h-4" />
                 </button>
               </div>
-            ) : (
-              <div className="flex items-center justify-center h-64 rounded-lg bg-gray-800/50">
-                <div className="text-center text-gray-400">
-                  <Sparkles className="w-12 h-12 mx-auto mb-2" />
-                  <p>AI Avatar will appear here</p>
+            ) : isLoading ? (
+              <SkeletonTheme
+                baseColor="rgba(255, 255, 255, 0.1)"
+                highlightColor="#444"
+              >
+                <div className="relative h-64 overflow-hidden rounded-lg">
+                  <Skeleton className="z-20 w-full h-full rounded-lg opacity-50" />
+                  {isShowImgPreviewProcessing && preview && (
+                    <div className="absolute top-0 left-0 z-10 w-full h-full rounded-lg">
+                      <div className="relative w-full h-full">
+                        <div
+                          style={{
+                            backdropFilter: "blur(18px)",
+                          }}
+                          className="absolute top-0 left-0 z-10 w-full h-full bg-[#0000006b]"
+                        ></div>
+                        <img
+                          className="block object-cover w-full h-64"
+                          src={preview || ""}
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
+              </SkeletonTheme>
+            ) : (
+              <>
+                <div className="flex items-center justify-center h-64 rounded-lg bg-gray-800/50">
+                  <div className="text-center text-gray-400">
+                    <Sparkles className="w-12 h-12 mx-auto mb-2" />
+                    <p>AI Avatar will appear here</p>
+                  </div>
+                </div>
+              </>
             )}
           </div>
         </div>
