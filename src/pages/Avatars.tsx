@@ -68,6 +68,8 @@ export function Avatars() {
       alert("Please take a photo first!");
       return;
     }
+    setIsShowImgPreviewProcessing(false);
+    setResult(null);
 
     setIsLoading(true);
     try {
