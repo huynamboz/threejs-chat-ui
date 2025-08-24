@@ -32,28 +32,25 @@ export function Home() {
           </mesh>
         </group>
 
-        {/* Lighting */}
-        <ambientLight intensity={0.8} />
+        {/* Lighting - Optimized for Performance */}
+        <ambientLight intensity={0.6} />
         <directionalLight 
-          position={[10, 10, 5]} 
-          intensity={1.2} 
+          position={[5, 10, 5]} 
+          intensity={1.0} 
           castShadow 
-          shadow-mapSize-width={2048}
-          shadow-mapSize-height={2048}
-          shadow-camera-far={50}
-          shadow-camera-left={-10}
-          shadow-camera-right={10}
-          shadow-camera-top={10}
-          shadow-camera-bottom={-10}
+          shadow-mapSize-width={1024}
+          shadow-mapSize-height={1024}
+          shadow-camera-far={30}
+          shadow-camera-left={-8}
+          shadow-camera-right={8}
+          shadow-camera-top={8}
+          shadow-camera-bottom={-8}
         />
         <directionalLight 
-          position={[-5, 5, -5]} 
-          intensity={0.6} 
+          position={[-3, 5, -3]} 
+          intensity={0.4} 
           color="#ffffff"
         />
-        <pointLight position={[0, 5, 0]} intensity={0.3} color="#ffffff" />
-        <pointLight position={[-10, 3, -10]} intensity={0.2} color="#87CEEB" />
-        <pointLight position={[10, 3, 10]} intensity={0.2} color="#FFB6C1" />
         {/* <OrbitControls enableZoom={false} /> */}
         <Environment preset="sunset" />
         <Parallax refObj={chatRef} />
