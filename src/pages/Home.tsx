@@ -33,17 +33,29 @@ export function Home() {
         </group>
 
         {/* Lighting */}
-        <ambientLight intensity={0.5} />
+        <ambientLight intensity={0.8} />
         <directionalLight 
           position={[10, 10, 5]} 
-          intensity={1} 
+          intensity={1.2} 
           castShadow 
           shadow-mapSize-width={2048}
           shadow-mapSize-height={2048}
+          shadow-camera-far={50}
+          shadow-camera-left={-10}
+          shadow-camera-right={10}
+          shadow-camera-top={10}
+          shadow-camera-bottom={-10}
         />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} />
+        <directionalLight 
+          position={[-5, 5, -5]} 
+          intensity={0.6} 
+          color="#ffffff"
+        />
+        <pointLight position={[0, 5, 0]} intensity={0.3} color="#ffffff" />
+        <pointLight position={[-10, 3, -10]} intensity={0.2} color="#87CEEB" />
+        <pointLight position={[10, 3, 10]} intensity={0.2} color="#FFB6C1" />
         {/* <OrbitControls enableZoom={false} /> */}
-        <Environment preset="city" />
+        <Environment preset="sunset" />
         <Parallax refObj={chatRef} />
       </Canvas>
     </div>
@@ -76,7 +88,7 @@ function ModelParallax({ children }: { children: React.ReactNode }) {
   });
   
   return (
-    <group ref={modelRef} position={[-1, -6, 6]} rotation={[0, THREE.MathUtils.degToRad(-20), 0]}>
+    <group ref={modelRef} position={[-1, -5.5, 6.5]} rotation={[0, THREE.MathUtils.degToRad(-20), 0]}>
       {children}
     </group>
   );

@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const ControlledInput = (props: any) => {
-  const { value, onChange, ...rest } = props
+  const { value, onChange, onKeyDown, ...rest } = props
   const [cursor, setCursor] = useState<number | null>(null)
   const ref = useRef<HTMLInputElement>(null)
 
@@ -17,5 +17,12 @@ export const ControlledInput = (props: any) => {
       onChange(e);
     }
   }
-  return <input ref={ref} value={value} onChange={handleChange} {...rest} />
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (onKeyDown) {
+      onKeyDown(e);
+    }
+  }
+
+  return <input ref={ref} value={value} onChange={handleChange} onKeyDown={handleKeyDown} {...rest} />
 }
